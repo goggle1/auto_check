@@ -53,10 +53,13 @@ expect "]# "
 send "cat /home/mediaserver/etc/ms.conf | grep accepter_thread_num >> $MS_LOG\r"
 expect "]# "
 
-#send "MEDIA1=\`cat /home/mediaserver/etc/ms.conf | grep service_devices | grep -v service_devices_reload_interval | awk -F\"=\" \'{print $2}\' | awk -F\" \" \'{print $1}\'\`; ls \"$MEDIA1\" | head -n 5 >> $MS_LOG\r"
-#expect "]#"
-send "ls /media1 | head -n 5 >> $MS_LOG\r"
+send "cat /home/mediaserver/etc/ms.conf | grep service_devices | grep -v service_devices_reload_interval  >> $MS_LOG\r"
 expect "]# "
+
+send "MEDIA_LIST=\`cat /home/mediaserver/etc/ms.conf | grep service_devices | grep -v service_devices_reload_interval | awk -F\"=\" '{print \$2}' `; for MEDIA in \$MEDIA_LIST; do ls \"\$MEDIA\" | sed \"s:^:\$MEDIA/:\" | head -n 2 >> $MS_LOG; done\r"
+expect "]# "
+#send "ls /media1 | head -n 5 >> $MS_LOG\r"
+#expect "]# "
 
 send "chown admin:admin $MS_LOG\r"
 expect "]# "

@@ -17,7 +17,7 @@ function ms_check_config()
 {
 	MS_IP=$1
 	MS_PORT=$2
-	#./check.sh $MS_IP $MS_PORT
+	./check.sh $MS_IP $MS_PORT
 }
 
 function do_line()
@@ -33,7 +33,7 @@ function do_line()
 		KEY=`echo $LINE|awk -F"," '{print $14}'`
 		PASSWORD=`echo $LINE|awk -F"," '{print $15}'`
 		ms_get_config $MS_IP2 $KEY $PASSWORD
-		ms_check_config $MS_IP2 $MS_PORT
+		#ms_check_config $MS_IP2 $MS_PORT
 	fi
 }
 
