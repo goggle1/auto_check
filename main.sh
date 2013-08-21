@@ -32,8 +32,8 @@ function do_line()
 		MS_PORT2=`echo $LINE|awk -F"," '{print $6}'`
 		KEY=`echo $LINE|awk -F"," '{print $14}'`
 		PASSWORD=`echo $LINE|awk -F"," '{print $15}'`
-		ms_get_config $MS_IP2 $KEY $PASSWORD
-		#ms_check_config $MS_IP2 $MS_PORT
+		#ms_get_config $MS_IP2 $KEY $PASSWORD
+		ms_check_config $MS_IP2 $MS_PORT
 	fi
 }
 

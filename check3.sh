@@ -12,13 +12,14 @@ function check_download()
 		#echo "$DAT"
 		DAT_FILE=`echo $DAT|awk -F"/" '{print $3}'`
 		DAT_NAME=`echo $DAT_FILE|awk -F"." '{print $1}'`
-		#curl -v -r 0-499 http://${MS_IP}:${MS_PORT}/${DAT_NAME}.mp4 -o ${MS_IP}_${MS_PORT}_${DAT_NAME}.mp4
-		DOWNLOAD_FILE="${MS_IP}_${MS_PORT}_${DAT_NAME}.mp4"
-		if [ -f $DOWNLOAD_FILE ];
+		SRC_FILE="http://${MS_IP}:${MS_PORT}/${DAT_NAME}.mp4"
+		DST_FILE="${MS_IP}_${MS_PORT}_${DAT_NAME}.mp4"
+		#curl -v -r 0-499 ${SRC_FILE} -o ${DST_FILE}
+		if [ -f $DST_FILE ];
 		then
-			echo "ok_download $MS_IP $MS_PORT $DAT"
+			echo "ok download $MS_IP $MS_PORT $DAT"
 		else
-			echo "fail_download $MS_IP $MS_PORT $DAT"
+			echo "fail download $MS_IP $MS_PORT $DAT"
 		fi
 	done
 }
@@ -32,7 +33,16 @@ function do_download()
 		echo "$DAT"
 		DAT_FILE=`echo $DAT|awk -F"/" '{print $3}'`
 		DAT_NAME=`echo $DAT_FILE|awk -F"." '{print $1}'`
-		curl -v -r 0-499 http://${MS_IP}:${MS_PORT}/${DAT_NAME}.mp4 -o ${MS_IP}_${MS_PORT}_${DAT_NAME}.mp4
+		SRC_FILE="http://${MS_IP}:${MS_PORT}/${DAT_NAME}.mp4"
+		DST_FILE="${MS_IP}_${MS_PORT}_${DAT_NAME}.mp4"
+		curl -v -r 0-499 ${SRC_FILE} -o ${DST_FILE}
+		if [ -f $DST_FILE ];
+		then
+			echo "ok download $MS_IP $MS_PORT $DAT"
+		else
+			echo "fail download $MS_IP $MS_PORT $DAT"
+			break
+		fi
 	done
 }
 
@@ -42,6 +52,7 @@ function check_log()
 	if [ -f $FILE ]; 
 	then
 		echo "ok ${MS_IP}"
+		#do_download ${MS_IP} ${MS_PORT}
 		check_download ${MS_IP} ${MS_PORT}
 	else
 		echo "fail ${MS_IP}"
